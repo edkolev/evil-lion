@@ -35,8 +35,11 @@ three   = 3
 fifteen = 15
 ```
 
+If the align separator is `/` you will be prompted for a regular expression instead of a plain character.
+
 TODO
 ----
 - visual mode
 - `gL` in addition to `gl`
-- make `gl` 
+- try to make `gl` work as vim-lion's `gl`
+- maybe support count
