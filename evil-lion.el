@@ -33,13 +33,22 @@
 ;; (evil-lion-install)
 ;;; Code:
 
+(require 'evil)
+(require 'align)
+
+;;;###autoload
 (defun evil-lion-install ()
   (define-key evil-normal-state-map (kbd "gl") 'evil-lion))
 
 (defun evil-lion-valid-char-p (char)
   (not (memq char '(?\C-\[ ?\C-?))))
 
+;;;###autoload
 (evil-define-operator evil-lion (beg end char)
+  "Align the text in the given region using CHAR.
+
+If CHAR is \"/\" the user is propted interactively for a regular
+expression instead of a single character"
   :move-point nil
   (interactive "<r>c")
   (when (evil-lion-valid-char-p char)
@@ -47,8 +56,10 @@
                      (read-string "Regexp: ")
                    (format  "%c" char))))
       (when (> (length regex) 0)
-        (align-regexp beg end (concat "\\(\\s-*\\)" regex))
-        ))))
+        (let* ((align-default-spacing 0)
+               (align-regex (concat "\\(\\)" regex)))
+          (align-regexp beg end align-regex)
+          )))))
 
 (provide 'evil-lion)
 ;;; evil-lion.el ends here
