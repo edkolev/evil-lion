@@ -41,5 +41,6 @@ TODO
 ----
 - visual mode
 - `gL` in addition to `gl`
-- try to make `gl` work as vim-lion's `gl`
 - maybe support count
+- maybe passing RET as CHAR should plain call align
+- tests

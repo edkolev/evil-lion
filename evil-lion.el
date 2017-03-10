@@ -34,7 +34,6 @@
 ;;; Code:
 
 (require 'evil)
-(require 'align)
 
 ;;;###autoload
 (defun evil-lion-install ()
@@ -56,10 +55,20 @@ expression instead of a single character"
                      (read-string "Regexp: ")
                    (format  "%c" char))))
       (when (> (length regex) 0)
-        (let* ((align-default-spacing 0)
-               (align-regex (concat "\\(\\)" regex)))
-          (align-regexp beg end align-regex)
-          )))))
+        (evil-lion--align-region beg end regex)))))
+
+(defun evil-lion--align-region (beg end regex)
+  (let* ((regexp (concat "\\(\\)" regex))
+         (spacing 0)
+         (repeat nil)
+         (group 1)
+         (rule
+          (list (list nil (cons 'regexp regexp)
+                      (cons 'group group)
+                      (cons 'spacing spacing)
+                      (cons 'repeat repeat)))))
+    (align-region beg end 'entire rule nil nil)))
 
 (provide 'evil-lion)
+
 ;;; evil-lion.el ends here
