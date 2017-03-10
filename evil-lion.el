@@ -31,9 +31,17 @@
 ;; Usage:
 ;;
 ;; (evil-lion-install)
+;;
+;; The above call will install "gl" evil operator, which is used as:
+;;   gl TEXT-OBJECT SEPARATOR
+;; for example,
+;;   gl ip =
+;; will align the paragraph on = signs
+;;
 ;;; Code:
 
 (require 'evil)
+(require 'align)
 
 ;;;###autoload
 (defun evil-lion-install ()
