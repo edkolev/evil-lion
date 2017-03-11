@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/edkolev/evil-lion.svg?branch=master)](https://travis-ci.org/edkolev/evil-lion)
 
 evil-lion
 =========
