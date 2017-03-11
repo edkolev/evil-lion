@@ -68,7 +68,7 @@ expression instead of a single character"
 (defun evil-lion--align-region (beg end regex)
   (let* ((regexp (concat "\\(\\)" regex))
          (spacing 0)
-         (repeat nil)
+         (repeat t)
          (group 1)
          (rule
           (list (list nil (cons 'regexp regexp)

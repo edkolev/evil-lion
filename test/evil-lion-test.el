@@ -11,16 +11,31 @@
 
 (ert-deftest evil-lion-test ()
   :tags '(evil-lion)
-  (evil-test-buffer
-   "[o]ne = 1
+  (ert-info ("Simple")
+    (evil-test-buffer
+      "
+[o]ne = 1
 three = 3
 fifteen = 15
 "
-   ("glip=")
-   "one     = 1
+      ("glap=")
+      "
+one     = 1
 three   = 3
 fifteen = 15
 "))
+  (ert-info ("Multiple separators")
+    (evil-test-buffer
+      "
+[a]aaaaa|bbb|ccc
+aa|bbbbbbb|cc
+"
+      ("glap|")
+      "
+aaaaaa|bbb    |ccc
+aa    |bbbbbbb|cc
+"))
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; code below is copied from evil-tests.el
