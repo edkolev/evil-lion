@@ -19,7 +19,10 @@ Installation
 Usage
 -----
 
-Example:
+Align with `gl MOTION CHAR` or right-align with `gL MOTION CHAR`.
+If the align separator is `/` you will be prompted for a regular expression instead of a plain character.
+
+Example, left align `gl`:
 
 After pressing `glip=` (`gl` is the operator, `ip` text object paragraph, `=` separator)
 ```
@@ -36,12 +39,23 @@ three   = 3
 fifteen = 15
 ```
 
-If the align separator is `/` you will be prompted for a regular expression instead of a plain character.
+Example, right align with `gL`:
+
+After pressing `gLip=`
+```
+one, two, three,
+fifteen, sixteen, seventeen
+```
+
+will become:
+
+```
+one,     two,     three,
+fifteen, sixteen, seventeen
+```
 
 TODO
 ----
 - visual mode
-- `gL` in addition to `gl`
-- maybe support count
-- maybe passing RET as CHAR should plain call align
-- tests
+- passing RET as CHAR should plain call align
+- align by dots (don't treat single chars as regex)

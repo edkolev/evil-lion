@@ -31,7 +31,19 @@ aa|bbbbbbb|cc
 aaaaaa|bbb    |ccc
 aa    |bbbbbbb|cc
 "))
-  )
+(ert-info ("Right-align multiple separators")
+  (evil-test-buffer
+   "
+[a], b, c
+aa, bb, cc
+aaa, bbb, ccc
+"
+      ("gLap,")
+      "
+a,   b,   c
+aa,  bb,  cc
+aaa, bbb, ccc
+")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; code below is copied from evil-tests.el

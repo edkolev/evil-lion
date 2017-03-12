@@ -45,38 +45,57 @@
 
 ;;;###autoload
 (defun evil-lion-install ()
-  (define-key evil-normal-state-map (kbd "gl") 'evil-lion))
+  (define-key evil-normal-state-map (kbd "gl") 'evil-lion-left)
+  (define-key evil-normal-state-map (kbd "gL") 'evil-lion-right))
 
 (defun evil-lion-valid-char-p (char)
   (not (memq char '(?\C-\[ ?\C-?))))
 
 ;;;###autoload
-(evil-define-operator evil-lion (beg end char)
-  "Align the text in the given region using CHAR.
+(evil-define-operator evil-lion-left (beg end char)
+  "Align the text in the given region using CHAR. Spaces are added to
+the left of the found CHAR.
 
 If CHAR is \"/\" the user is propted interactively for a regular
 expression instead of a single character"
   :move-point nil
   (interactive "<r>c")
   (when (evil-lion-valid-char-p char)
-    (let ((regex (if (eq char ?/)
-                     (read-string "Regexp: ")
-                   (format  "%c" char))))
-      (when (> (length regex) 0)
-        (evil-lion--align-region beg end regex)))))
+    (let ((regex (evil-lion--maybe-read-regex char)))
+      (evil-lion--align-region 'left beg end regex))))
 
-(defun evil-lion--align-region (beg end regex)
-  (let* ((indent-tabs-mode nil)
-         (regexp (concat "\\(\\)" regex))
-         (spacing 0)
-         (repeat t)
-         (group 1)
-         (rule
-          (list (list nil (cons 'regexp regexp)
-                      (cons 'group group)
-                      (cons 'spacing spacing)
-                      (cons 'repeat repeat)))))
-    (align-region beg end 'entire rule nil nil)))
+;;;###autoload
+(evil-define-operator evil-lion-right (beg end char)
+  "Align the text in the given region using CHAR. Spaces are added to
+the right of the found CHAR.
+
+If CHAR is \"/\" the user is propted interactively for a regular
+expression instead of a single character"
+  :move-point nil
+  (interactive "<r>c")
+  (when (evil-lion-valid-char-p char)
+    (let ((regex (evil-lion--maybe-read-regex char)))
+      (evil-lion--align-region 'right beg end regex))))
+
+(defun evil-lion--maybe-read-regex (char)
+  (if (eq char ?/)             ;; TODO RET should plain call align
+      (read-string "Regexp: ") ;; TODO default value shoud be ?/
+    (format  "%c" char)))
+
+(defun evil-lion--align-region (type beg end regex)
+  (when (> (length regex) 0)
+    (let* ((indent-tabs-mode nil)
+           (regexp
+            (if (eq type 'left) (concat "\\(\\)" regex) (concat regex "\\(\\)")))
+           (spacing 0)
+           (repeat t)
+           (group 1)
+           (rule
+            (list (list nil (cons 'regexp regexp)
+                        (cons 'group group)
+                        (cons 'spacing spacing)
+                        (cons 'repeat repeat)))))
+      (align-region beg end 'entire rule nil nil))))
 
 (provide 'evil-lion)
 
