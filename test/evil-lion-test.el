@@ -56,6 +56,19 @@ aaa. bbb. ccc
 a.   b.   c
 aa.  bb.  cc
 aaa. bbb. ccc
+"))
+(ert-info ("Align by dot")
+  (evil-test-buffer
+   "
+[a]X bX c
+aaX bbX cc
+aaaX bbbX ccc
+"
+      ("gLap/X")
+      "
+aX   bX   c
+aaX  bbX  cc
+aaaX bbbX ccc
 ")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
