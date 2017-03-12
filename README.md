@@ -56,6 +56,4 @@ fifteen, sixteen, seventeen
 
 TODO
 ----
-- visual mode
 - passing RET as CHAR should plain call align
-- align by dots (don't treat single chars as regex)

@@ -46,7 +46,9 @@
 ;;;###autoload
 (defun evil-lion-install ()
   (define-key evil-normal-state-map (kbd "gl") 'evil-lion-left)
-  (define-key evil-normal-state-map (kbd "gL") 'evil-lion-right))
+  (define-key evil-normal-state-map (kbd "gL") 'evil-lion-right)
+  (define-key evil-visual-state-map (kbd "gl") 'evil-lion-left)
+  (define-key evil-visual-state-map (kbd "gL") 'evil-lion-right))
 
 (defun evil-lion-valid-char-p (char)
   (not (memq char '(?\C-\[ ?\C-?))))

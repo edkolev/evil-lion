@@ -69,6 +69,19 @@ aaaX bbbX ccc
 aX   bX   c
 aaX  bbX  cc
 aaaX bbbX ccc
+"))
+(ert-info ("Align visual selection")
+  (evil-test-buffer
+   "
+<[a], b, c
+aa, bb, cc>
+aaa, bbb, ccc
+"
+   ("gL,")
+   "
+a,  b,  c
+aa, bb, cc
+aaa, bbb, ccc
 ")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
