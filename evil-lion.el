@@ -66,7 +66,8 @@ expression instead of a single character"
         (evil-lion--align-region beg end regex)))))
 
 (defun evil-lion--align-region (beg end regex)
-  (let* ((regexp (concat "\\(\\)" regex))
+  (let* ((indent-tabs-mode nil)
+         (regexp (concat "\\(\\)" regex))
          (spacing 0)
          (repeat t)
          (group 1)

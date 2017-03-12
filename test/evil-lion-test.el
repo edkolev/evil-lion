@@ -5,15 +5,11 @@
 
 (evil-lion-install)
 
-;; TODO why do batch tests fail without this?
-;; evil-lion should not be affected by its value
-(setq-default indent-tabs-mode nil)
-
 (ert-deftest evil-lion-test ()
   :tags '(evil-lion)
   (ert-info ("Simple")
     (evil-test-buffer
-      "
+     "
 [o]ne = 1
 three = 3
 fifteen = 15
