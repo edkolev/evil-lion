@@ -21,6 +21,7 @@ Usage
 
 Align with `gl MOTION CHAR` or right-align with `gL MOTION CHAR`.
 If the align separator is `/` you will be prompted for a regular expression instead of a plain character.
+If the align separator is `RET` alignment will be performed with align.el's rules specific for the major mode.
 
 Example, left align `gl`:
 
@@ -54,6 +55,32 @@ one,     two,     three,
 fifteen, sixteen, seventeen
 ```
 
-TODO
-----
-- passing RET as CHAR should plain call align
+Example, align with major mode's alignment rules:
+
+In perl-mode, after pressing `glib RET` (`RET` is return key, not individal keys):
+
+``` perl
+my %hash = (
+   a => 1,
+   bbb => 2,
+   cccc => 3,
+
+   a => 1,
+   bbb => 2,
+   cccccc => 3
+);
+```
+
+will become:
+
+``` perl
+my $hash = (
+   a    => 1,
+   bbb  => 2,
+   cccc => 3,
+
+   a      => 1,
+   bbb    => 2,
+   cccccc => 3
+););
+```

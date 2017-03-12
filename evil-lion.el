@@ -50,9 +50,6 @@
   (define-key evil-visual-state-map (kbd "gl") 'evil-lion-left)
   (define-key evil-visual-state-map (kbd "gL") 'evil-lion-right))
 
-(defun evil-lion-valid-char-p (char)
-  (not (memq char '(?\C-\[ ?\C-?))))
-
 ;;;###autoload
 (evil-define-operator evil-lion-left (beg end char)
   "Align the text in the given region using CHAR. Spaces are added to
@@ -62,9 +59,7 @@ If CHAR is \"/\" the user is propted interactively for a regular
 expression instead of a single character"
   :move-point nil
   (interactive "<r>c")
-  (when (evil-lion-valid-char-p char)
-    (let ((regex (evil-lion--maybe-read-regex char)))
-      (evil-lion--align-region 'left beg end regex))))
+  (evil-lion--align beg end 'left char))
 
 ;;;###autoload
 (evil-define-operator evil-lion-right (beg end char)
@@ -75,9 +70,21 @@ If CHAR is \"/\" the user is propted interactively for a regular
 expression instead of a single character"
   :move-point nil
   (interactive "<r>c")
-  (when (evil-lion-valid-char-p char)
-    (let ((regex (evil-lion--maybe-read-regex char)))
-      (evil-lion--align-region 'right beg end regex))))
+  (evil-lion--align beg end 'right char))
+
+(defun evil-lion--align (beg end type char)
+  (cond ((eq char ?\r)
+         (evil-lion--plain-align beg end))
+        ((evil-lion--valid-char-p char)
+         (let ((regex (evil-lion--maybe-read-regex char)))
+           (evil-lion--align-region type beg end regex)))))
+
+(defun evil-lion--plain-align (beg end)
+  (let ((indent-tabs-mode nil))
+    (align beg end)))
+
+(defun evil-lion--valid-char-p (char)
+  (not (memq char '(?\e ?\d ?\b)))) ;; ESC, DEL, BS
 
 (defun evil-lion--maybe-read-regex (char)
   (if (eq char ?/)             ;; TODO RET should plain call align

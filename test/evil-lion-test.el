@@ -82,7 +82,32 @@ aaa, bbb, ccc
 a,  b,  c
 aa, bb, cc
 aaa, bbb, ccc
-")))
+"))
+(ert-info ("Plain (align) in perl-mode")
+  (evil-test-buffer
+   :visual-end "}" ;; default is ">"
+   "
+my %hash = (
+   [a] => 1,
+   bbb => 2,
+   cccc => 3,
+
+   a => 1,
+   bbb => 2,
+   cccccc => 3
+);"
+   (perl-mode)
+   ("glib" (kbd "C-m"))
+   "
+my %hash = (
+   a    => 1,
+   bbb  => 2,
+   cccc => 3,
+
+   a      => 1,
+   bbb    => 2,
+   cccccc => 3
+);")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; code below is copied from evil-tests.el
