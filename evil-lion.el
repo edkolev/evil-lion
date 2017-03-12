@@ -80,7 +80,7 @@ expression instead of a single character"
 (defun evil-lion--maybe-read-regex (char)
   (if (eq char ?/)             ;; TODO RET should plain call align
       (read-string "Regexp: ") ;; TODO default value shoud be ?/
-    (format  "%c" char)))
+    (regexp-quote (format  "%c" char))))
 
 (defun evil-lion--align-region (type beg end regex)
   (when (> (length regex) 0)

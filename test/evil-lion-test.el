@@ -43,6 +43,19 @@ aaa, bbb, ccc
 a,   b,   c
 aa,  bb,  cc
 aaa, bbb, ccc
+"))
+(ert-info ("Align by dot")
+  (evil-test-buffer
+   "
+[a]. b. c
+aa. bb. cc
+aaa. bbb. ccc
+"
+      ("gLap.")
+      "
+a.   b.   c
+aa.  bb.  cc
+aaa. bbb. ccc
 ")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
