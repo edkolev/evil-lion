@@ -5,7 +5,13 @@
 evil-lion
 =========
 
-Evil align operator, port of vim-lion by Tom McDonald (https://github.com/tommcdo/vim-lion)
+This package provides `gl` and `gL` align operators: `gl MOTION CHAR` and right-align `gL MOTION CHAR`.
+
+Use CHAR `/` to enter regular expression if a single character wouldn't suffice.
+
+Use CHAR `REG` to align with align.el's default rules for the active major mode.
+
+Port of [vim-lion](https://github.com/tommcdo/vim-lion)
 
 Installation
 ------------
@@ -25,7 +31,7 @@ Align with `gl MOTION CHAR` or right-align with `gL MOTION CHAR`.
 If the align separator is `/` you will be prompted for a regular expression instead of a plain character.
 If the align separator is `RET` alignment will be performed with align.el's rules specific for the major mode.
 
-Example, left align `gl`:
+#### Example, left align `gl`:
 
 After pressing `glip=` (`gl` is the operator, `ip` text object paragraph, `=` separator)
 ```
@@ -42,7 +48,7 @@ three   = 3
 fifteen = 15
 ```
 
-Example, right align with `gL`:
+#### Example, right align with `gL`:
 
 After pressing `gLip=`
 ```
@@ -57,7 +63,7 @@ one,     two,     three,
 fifteen, sixteen, seventeen
 ```
 
-Example, align with major mode's alignment rules:
+#### Example, align with major mode's alignment rules:
 
 In perl-mode, after pressing `glib RET` (`RET` is return key, not individal keys):
 
