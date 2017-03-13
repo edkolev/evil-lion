@@ -13,6 +13,8 @@ Use CHAR `REG` to align with align.el's default rules for the active major mode.
 
 Port of [vim-lion](https://github.com/tommcdo/vim-lion)
 
+![scar](https://cloud.githubusercontent.com/assets/1532071/23858247/7f33c4c6-0808-11e7-822c-e63c787c2f2b.png)
+
 Installation
 ------------
 
