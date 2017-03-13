@@ -9,7 +9,7 @@ This package provides `gl` and `gL` align operators: `gl MOTION CHAR` and right-
 
 Use CHAR `/` to enter regular expression if a single character wouldn't suffice.
 
-Use CHAR `REG` to align with align.el's default rules for the active major mode.
+Use CHAR `RET` to align with align.el's default rules for the active major mode.
 
 Port of [vim-lion](https://github.com/tommcdo/vim-lion)
 

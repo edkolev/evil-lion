@@ -4,8 +4,9 @@
 
 ;; Author: edkolev <evgenysw@gmail.com>
 ;; URL: http://github.com/edkolev/evil-lion
-;; Keywords: evil, plugin, align
-;; Package-Requires: ((align.el ""))
+;; Package-Requires: ((emacs "24"))
+;; Version: 0.0.1
+;; Keywords: emulations, evil, vim
 
 ;; This file is NOT part of GNU Emacs.
 
