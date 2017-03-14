@@ -88,8 +88,8 @@ expression instead of a single character"
   (not (memq char '(?\e ?\d ?\b)))) ;; ESC, DEL, BS
 
 (defun evil-lion--maybe-read-regex (char)
-  (if (eq char ?/)             ;; TODO RET should plain call align
-      (read-string "Regexp: ") ;; TODO default value shoud be ?/
+  (if (eq char ?/)
+      (read-string "Pattern [/]: " nil nil "/")
     (regexp-quote (format  "%c" char))))
 
 (defun evil-lion--align-region (type beg end regex)
