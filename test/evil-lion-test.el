@@ -3,7 +3,7 @@
 (require 'evil)
 (require 'evil-lion)
 
-(evil-lion-install)
+(evil-lion-mode)
 
 (ert-deftest evil-lion-test ()
   :tags '(evil-lion)

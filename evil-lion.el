@@ -42,14 +42,6 @@
 ;;; Code:
 
 (require 'evil)
-(require 'align)
-
-;;;###autoload
-(defun evil-lion-install ()
-  (define-key evil-normal-state-map (kbd "gl") 'evil-lion-left)
-  (define-key evil-normal-state-map (kbd "gL") 'evil-lion-right)
-  (define-key evil-visual-state-map (kbd "gl") 'evil-lion-left)
-  (define-key evil-visual-state-map (kbd "gL") 'evil-lion-right))
 
 ;;;###autoload
 (evil-define-operator evil-lion-left (beg end char)
@@ -106,6 +98,26 @@ expression instead of a single character"
                         (cons 'spacing spacing)
                         (cons 'repeat repeat)))))
       (align-region beg end 'entire rule nil nil))))
+
+;;;###autoload
+(define-minor-mode evil-lion-mode
+  "evil-lion mode, defines align operators 'gl' and 'gL'.
+
+  Align with `gl MOTION CHAR` or right-align with `gL MOTION CHAR`.
+
+  If CHAR is `/` you will be prompted for a regular expression instead
+  of a plain character.
+
+  If CHAR is `RET` alignment will be performed with align.el's rules
+  specific for the current major mode."
+  :global t
+
+  (evil-define-minor-mode-key 'normal 'evil-lion-mode
+    (kbd "g l") 'evil-lion-left
+    (kbd "g L") 'evil-lion-right)
+  (evil-define-minor-mode-key 'visual 'evil-lion-mode
+    (kbd "g l") 'evil-lion-left
+    (kbd "g L") 'evil-lion-right))
 
 (provide 'evil-lion)
 
