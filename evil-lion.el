@@ -66,6 +66,10 @@ expression instead of a single character"
   (evil-lion--align beg end 'right char))
 
 (defun evil-lion--align (beg end type char)
+  "Align the region b/w BEG and END.
+
+TYPE can be either 'left or 'right.
+CHAR is the character to align with."
   (cond ((eq char ?\r)
          (evil-lion--plain-align beg end))
         ((evil-lion--valid-char-p char)
@@ -73,18 +77,28 @@ expression instead of a single character"
            (evil-lion--align-region type beg end regex)))))
 
 (defun evil-lion--plain-align (beg end)
+  "Aligh with rules defined by the major mode.
+
+BEG and END specify the region."
   (let ((indent-tabs-mode nil))
     (align beg end)))
 
 (defun evil-lion--valid-char-p (char)
+  "Return nil if the CHAR is invalid align character, e.g. DEL."
   (not (memq char '(?\e ?\d ?\b)))) ;; ESC, DEL, BS
 
 (defun evil-lion--maybe-read-regex (char)
+  "If CHAR is \"/\", ask the user for a regex. Otherwise regexp-quote CHAR."
   (if (eq char ?/)
       (read-string "Pattern [/]: " nil nil "/")
     (regexp-quote (format  "%c" char))))
 
 (defun evil-lion--align-region (type beg end regex)
+  "Build input for (align-region) and call it.
+
+TYPE can be either 'left or 'right.
+BEG and END specify the retion to align.
+REGEX is the regex to align by."
   (when (> (length regex) 0)
     (let* ((indent-tabs-mode nil)
            (regexp
