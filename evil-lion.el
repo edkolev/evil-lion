@@ -97,6 +97,9 @@ expression instead of a single character"
                         (cons 'group group)
                         (cons 'spacing spacing)
                         (cons 'repeat repeat)))))
+      ;; if align-region isn't loaded, require it
+      (when (not (fboundp 'align-region))
+        (require 'align))
       (align-region beg end 'entire rule nil nil))))
 
 ;;;###autoload
