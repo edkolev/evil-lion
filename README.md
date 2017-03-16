@@ -23,7 +23,7 @@ Installation
 (use-package evil-lion
   :ensure t
   :config
-  (evil-lion-install))
+  (evil-lion-mode))
 ```
 
 Usage
