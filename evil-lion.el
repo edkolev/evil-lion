@@ -93,8 +93,7 @@ BEG and END specify the region."
       (read-string "Pattern [/]: " nil nil "/")
     (regexp-quote (format  "%c" char))))
 
-(when (not (fboundp 'align-region))
-  (declare-function align-region "align"))
+(declare-function align-region "align")
 (defun evil-lion--align-region (type beg end regex)
   "Build input for (align-region) and call it.
 
