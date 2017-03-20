@@ -113,7 +113,7 @@ REGEX is the regex to align by."
                         (cons 'spacing spacing)
                         (cons 'repeat repeat)))))
       ;; if align-region isn't loaded, require it
-      (when (not (fboundp 'align-region))
+      (unless (fboundp 'align-region)
         (require 'align))
       (align-region beg end 'entire rule nil nil))))
 
