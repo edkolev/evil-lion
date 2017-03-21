@@ -43,7 +43,7 @@
 
 (require 'evil)
 
-;;;###autoload
+;;;###autoload(autoload 'evil-lion-left "evil-lion" nil t)
 (evil-define-operator evil-lion-left (beg end char)
   "Align the text in the given region using CHAR. Spaces are added to
 the left of the found CHAR.
@@ -54,7 +54,7 @@ expression instead of a single character"
   (interactive "<r>c")
   (evil-lion--align beg end 'left char))
 
-;;;###autoload
+;;;###autoload(autoload 'evil-lion-right "evil-lion" nil t)
 (evil-define-operator evil-lion-right (beg end char)
   "Align the text in the given region using CHAR. Spaces are added to
 the right of the found CHAR.
