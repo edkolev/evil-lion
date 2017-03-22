@@ -59,7 +59,7 @@ fifteen = 15
 
 #### Example, right align with `gL`:
 
-After pressing `gLip=`
+After pressing `gLip,`
 ```
 one, two, three,
 fifteen, sixteen, seventeen
