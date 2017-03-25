@@ -43,6 +43,37 @@
 
 (require 'evil)
 
+(defgroup evil-lion nil
+  "Align operator for Evil."
+  :prefix "evil-lion"
+  :group 'evil)
+
+(defcustom evil-lion-enable-default-binds t
+  "When non-nill, enable default key bindings.
+
+Must be set before the minor mode is enabled."
+  :type 'boolean
+  :group 'evil-lion)
+
+(defcustom evil-lion-left-align-key (kbd "g l")
+  "Default binding for ‘evil-lion-left’.
+
+Must be set before the minor mode is enabled."
+  :type `,(if (get 'key-sequence 'widget-type)
+              'key-sequence
+            'sexp)
+  :group 'evil-lion)
+
+(defcustom evil-lion-right-align-key (kbd "g L")
+  "Default binding for ‘evil-lion-right’.
+
+Must be set before the minor mode is enabled."
+
+  :type `,(if (get 'key-sequence 'widget-type)
+              'key-sequence
+            'sexp)
+  :group 'evil-lion)
+
 ;;;###autoload(autoload 'evil-lion-left "evil-lion" nil t)
 (evil-define-operator evil-lion-left (beg end char)
   "Align the text in the given region using CHAR. Spaces are added to
@@ -130,12 +161,14 @@ REGEX is the regex to align by."
   specific for the current major mode."
   :global t
 
-  (evil-define-minor-mode-key 'normal 'evil-lion-mode
-    (kbd "g l") 'evil-lion-left
-    (kbd "g L") 'evil-lion-right)
-  (evil-define-minor-mode-key 'visual 'evil-lion-mode
-    (kbd "g l") 'evil-lion-left
-    (kbd "g L") 'evil-lion-right))
+  (let ((left-key (if evil-lion-enable-default-binds evil-lion-left-align-key))
+        (right-key (if evil-lion-enable-default-binds evil-lion-right-align-key)))
+    (when left-key
+      (evil-define-minor-mode-key 'normal 'evil-lion-mode left-key 'evil-lion-left)
+      (evil-define-minor-mode-key 'visual 'evil-lion-mode left-key 'evil-lion-left))
+    (when right-key
+      (evil-define-minor-mode-key 'normal 'evil-lion-mode right-key 'evil-lion-right)
+      (evil-define-minor-mode-key 'visual 'evil-lion-mode right-key 'evil-lion-right))))
 
 (provide 'evil-lion)
 
