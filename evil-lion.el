@@ -148,7 +148,30 @@ REGEX is the regex to align by."
         (require 'align))
       (align-region beg end 'entire rule nil nil))))
 
+(defun evil-lion--maybe-bind-keys (mode)
+  "Bind keys for the given minor MODE."
+  (let ((left-key (if evil-lion-enable-default-binds evil-lion-left-align-key))
+        (right-key (if evil-lion-enable-default-binds evil-lion-right-align-key)))
+    (when left-key
+      (evil-define-minor-mode-key 'normal mode left-key 'evil-lion-left)
+      (evil-define-minor-mode-key 'visual mode left-key 'evil-lion-left))
+    (when right-key
+      (evil-define-minor-mode-key 'normal mode right-key 'evil-lion-right)
+      (evil-define-minor-mode-key 'visual mode right-key 'evil-lion-right))))
+
 ;;;###autoload
+(define-minor-mode evil-lion-local-mode
+  "evil-lion mode, defines align operators 'gl' and 'gL'.
+
+  Align with `gl MOTION CHAR` or right-align with `gL MOTION CHAR`.
+
+  If CHAR is `/` you will be prompted for a regular expression instead
+  of a plain character.
+
+  If CHAR is `RET` alignment will be performed with align.el's rules
+  specific for the current major mode."
+  (evil-lion--maybe-bind-keys 'evil-lion-local-mode))
+
 (define-minor-mode evil-lion-mode
   "evil-lion mode, defines align operators 'gl' and 'gL'.
 
@@ -160,15 +183,7 @@ REGEX is the regex to align by."
   If CHAR is `RET` alignment will be performed with align.el's rules
   specific for the current major mode."
   :global t
-
-  (let ((left-key (if evil-lion-enable-default-binds evil-lion-left-align-key))
-        (right-key (if evil-lion-enable-default-binds evil-lion-right-align-key)))
-    (when left-key
-      (evil-define-minor-mode-key 'normal 'evil-lion-mode left-key 'evil-lion-left)
-      (evil-define-minor-mode-key 'visual 'evil-lion-mode left-key 'evil-lion-left))
-    (when right-key
-      (evil-define-minor-mode-key 'normal 'evil-lion-mode right-key 'evil-lion-right)
-      (evil-define-minor-mode-key 'visual 'evil-lion-mode right-key 'evil-lion-right))))
+  (evil-lion--maybe-bind-keys 'evil-lion-mode))
 
 (provide 'evil-lion)
 
