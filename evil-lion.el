@@ -48,13 +48,6 @@
   :prefix "evil-lion"
   :group 'evil)
 
-(defcustom evil-lion-enable-default-binds t
-  "When non-nill, enable default key bindings.
-
-Must be set before the minor mode is enabled."
-  :type 'boolean
-  :group 'evil-lion)
-
 (defcustom evil-lion-left-align-key (kbd "g l")
   "Default binding for ‘evil-lion-left’.
 
@@ -148,16 +141,14 @@ REGEX is the regex to align by."
         (require 'align))
       (align-region beg end 'entire rule nil nil))))
 
-(defun evil-lion--maybe-bind-keys (mode)
+(defun evil-lion--bind-keys (mode)
   "Bind keys for the given minor MODE."
-  (let ((left-key (if evil-lion-enable-default-binds evil-lion-left-align-key))
-        (right-key (if evil-lion-enable-default-binds evil-lion-right-align-key)))
-    (when left-key
-      (evil-define-minor-mode-key 'normal mode left-key 'evil-lion-left)
-      (evil-define-minor-mode-key 'visual mode left-key 'evil-lion-left))
-    (when right-key
-      (evil-define-minor-mode-key 'normal mode right-key 'evil-lion-right)
-      (evil-define-minor-mode-key 'visual mode right-key 'evil-lion-right))))
+  (when evil-lion-left-align-key
+    (evil-define-minor-mode-key 'normal mode evil-lion-left-align-key 'evil-lion-left)
+    (evil-define-minor-mode-key 'visual mode evil-lion-left-align-key 'evil-lion-left))
+  (when evil-lion-right-align-key
+    (evil-define-minor-mode-key 'normal mode evil-lion-right-align-key 'evil-lion-right)
+    (evil-define-minor-mode-key 'visual mode evil-lion-right-align-key 'evil-lion-right)))
 
 ;;;###autoload
 (define-minor-mode evil-lion-local-mode
@@ -170,7 +161,7 @@ REGEX is the regex to align by."
 
   If CHAR is `RET` alignment will be performed with align.el's rules
   specific for the current major mode."
-  (evil-lion--maybe-bind-keys 'evil-lion-local-mode))
+  (evil-lion--bind-keys 'evil-lion-local-mode))
 
 (define-minor-mode evil-lion-mode
   "evil-lion mode, defines align operators 'gl' and 'gL'.
@@ -183,7 +174,7 @@ REGEX is the regex to align by."
   If CHAR is `RET` alignment will be performed with align.el's rules
   specific for the current major mode."
   :global t
-  (evil-lion--maybe-bind-keys 'evil-lion-mode))
+  (evil-lion--bind-keys 'evil-lion-mode))
 
 (provide 'evil-lion)
 
