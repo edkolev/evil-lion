@@ -151,20 +151,8 @@ REGEX is the regex to align by."
     (evil-define-minor-mode-key 'visual mode evil-lion-right-align-key 'evil-lion-right)))
 
 ;;;###autoload
-(define-minor-mode evil-lion-local-mode
-  "evil-lion mode, defines align operators 'gl' and 'gL'.
-
-  Align with `gl MOTION CHAR` or right-align with `gL MOTION CHAR`.
-
-  If CHAR is `/` you will be prompted for a regular expression instead
-  of a plain character.
-
-  If CHAR is `RET` alignment will be performed with align.el's rules
-  specific for the current major mode."
-  (evil-lion--bind-keys 'evil-lion-local-mode))
-
 (define-minor-mode evil-lion-mode
-  "evil-lion mode, defines align operators 'gl' and 'gL'.
+  "evil-lion global mode, defines align operators 'gl' and 'gL'.
 
   Align with `gl MOTION CHAR` or right-align with `gL MOTION CHAR`.
 
