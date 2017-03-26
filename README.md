@@ -117,8 +117,8 @@ Customization
 
 #### Bind in prog modes only
 
-Bind `evil-lion-left` and `evil-lion-right`.
-The `evil-lion-mode` should not be enalbed.
+Bind `evil-lion-left` and `evil-lion-right` to your liking.
+The `evil-lion-mode` is just a convenience mode and should not be enalbed with this setup.
 
 ``` emacs-lisp
 (evil-define-key 'normal prog-mode-map
