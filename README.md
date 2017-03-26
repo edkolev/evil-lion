@@ -101,3 +101,32 @@ my $hash = (
    cccccc => 3
 ););
 ```
+
+Customization
+-------------
+
+#### Change the default keys
+
+``` emacs-lisp
+;; use `g a` (mnemonic `align`)
+;; these variables should be changed before (evil-lion-mode) is called
+(setq evil-lion-left-align-key (kbd "g a"))
+(setq evil-lion-right-align-key (kbd "g A"))
+(evil-lion-mode)
+```
+
+#### Bind in prog modes only
+
+Bind `evil-lion-left` and `evil-lion-right`.
+The `evil-lion-mode` should not be enalbed.
+
+``` emacs-lisp
+(evil-define-key 'normal prog-mode-map
+  (kbd "g l") 'evil-lion-left
+  (kbd "g L") 'evil-lion-right)
+
+(evil-define-key 'visual prog-mode-map
+  (kbd "g l") 'evil-lion-left
+  (kbd "g L") 'evil-lion-right)
+```
+
