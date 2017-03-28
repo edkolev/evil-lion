@@ -68,28 +68,28 @@ Must be set before the minor mode is enabled."
   :group 'evil-lion)
 
 ;;;###autoload(autoload 'evil-lion-left "evil-lion" nil t)
-(evil-define-operator evil-lion-left (beg end char)
+(evil-define-operator evil-lion-left (count beg end char)
   "Align the text in the given region using CHAR. Spaces are added to
 the left of the found CHAR.
 
 If CHAR is \"/\" the user is propted interactively for a regular
 expression instead of a single character"
   :move-point nil
-  (interactive "<r>c")
-  (evil-lion--align beg end 'left char))
+  (interactive "<c><r>c")
+  (evil-lion--align count beg end 'left char))
 
 ;;;###autoload(autoload 'evil-lion-right "evil-lion" nil t)
-(evil-define-operator evil-lion-right (beg end char)
+(evil-define-operator evil-lion-right (count beg end char)
   "Align the text in the given region using CHAR. Spaces are added to
 the right of the found CHAR.
 
 If CHAR is \"/\" the user is propted interactively for a regular
 expression instead of a single character"
   :move-point nil
-  (interactive "<r>c")
-  (evil-lion--align beg end 'right char))
+  (interactive "<c><r>c")
+  (evil-lion--align count beg end 'right char))
 
-(defun evil-lion--align (beg end type char)
+(defun evil-lion--align (count beg end type char)
   "Align the region b/w BEG and END.
 
 TYPE can be either 'left or 'right.
@@ -98,7 +98,7 @@ CHAR is the character to align with."
          (evil-lion--plain-align beg end))
         ((evil-lion--valid-char-p char)
          (let ((regex (evil-lion--maybe-read-regex char)))
-           (evil-lion--align-region type beg end regex)))))
+           (evil-lion--align-region type count beg end regex)))))
 
 (defun evil-lion--plain-align (beg end)
   "Aligh with rules defined by the major mode.
@@ -118,10 +118,12 @@ BEG and END specify the region."
     (regexp-quote (format  "%c" char))))
 
 (declare-function align-region "align")
-(defun evil-lion--align-region (type beg end regex)
+(defun evil-lion--align-region (type count beg end regex)
   "Build input for (align-region) and call it.
 
 TYPE can be either 'left or 'right.
+If COUNT is 1, the alignment will be performed on the first occurance
+only. COUNT is experimental.
 BEG and END specify the retion to align.
 REGEX is the regex to align by."
   (when (> (length regex) 0)
@@ -129,7 +131,8 @@ REGEX is the regex to align by."
            (regexp
             (if (eq type 'left) (concat "\\(\\)" regex) (concat regex "\\(\\)")))
            (spacing 0)
-           (repeat t)
+           (repeat
+            (if (eq count 1) nil t))
            (group 1)
            (rule
             (list (list nil (cons 'regexp regexp)

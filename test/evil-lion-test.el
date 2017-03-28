@@ -44,6 +44,20 @@ a,   b,   c
 aa,  bb,  cc
 aaa, bbb, ccc
 "))
+(ert-info ("Right-align multiple separators on first occurance")
+  (evil-test-buffer
+   "
+[a], b, c
+aa, bb, cc
+aaa, bbb, ccc
+"
+      ("1gLap,")
+      "
+a,   b, c
+aa,  bb, cc
+aaa, bbb, ccc
+"))
+
 (ert-info ("Align by dot")
   (evil-test-buffer
    "
