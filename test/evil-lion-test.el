@@ -97,6 +97,35 @@ a,  b,  c
 aa, bb, cc
 aaa, bbb, ccc
 "))
+(ert-info ("Align only specified text object")
+  (evil-test-buffer
+   "
+a, b, c
+aa, bb, cc
+aaa, bbb, ccc
+
+[a], b, c
+aa, bb, cc
+aaa, bbb, ccc
+
+a, b, c
+aa, bb, cc
+aaa, bbb, ccc
+"
+   ("gLip,")
+   "
+a, b, c
+aa, bb, cc
+aaa, bbb, ccc
+
+a,   b,   c
+aa,  bb,  cc
+aaa, bbb, ccc
+
+a, b, c
+aa, bb, cc
+aaa, bbb, ccc
+"))
 (ert-info ("Plain (align) in perl-mode")
   (evil-test-buffer
    :visual-end "}" ;; default is ">"
