@@ -75,6 +75,7 @@ the left of the found CHAR.
 If CHAR is \"/\" the user is propted interactively for a regular
 expression instead of a single character"
   :move-point nil
+  :type line
   (interactive "<c><r>c")
   (evil-lion--align count beg end 'left char))
 
@@ -86,6 +87,7 @@ the right of the found CHAR.
 If CHAR is \"/\" the user is propted interactively for a regular
 expression instead of a single character"
   :move-point nil
+  :type line
   (interactive "<c><r>c")
   (evil-lion--align count beg end 'right char))
 
