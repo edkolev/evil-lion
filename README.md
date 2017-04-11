@@ -37,8 +37,11 @@ Usage
 -----
 
 Align with `gl MOTION CHAR` or right-align with `gL MOTION CHAR`.
+
 If the align separator is `/` you will be prompted for a regular expression instead of a plain character.
 If the align separator is `RET` alignment will be performed with align.el's rules specific for the major mode.
+
+You can pass count `1` to align on the first occurrence of `CHAR`. To pass count, use: `COUNT gl MOTION CHAR`.
 
 #### Example, left align `gl`:
 
@@ -102,6 +105,27 @@ my $hash = (
 ););
 ```
 
+#### Example, align on the first occurrence of CHAR:
+
+After pressing `1glip"`
+```
+(red "red"
+(teal-green "#6fb593")
+(wheat "#b9c791")
+(blue "blue")
+(cyan "#54b6b6")
+```
+
+will become:
+
+```
+(red        "red"
+(teal-green "#6fb593")
+(wheat      "#b9c791")
+(blue       "blue")
+(cyan       "#54b6b6")
+```
+
 Customization
 -------------
 
@@ -113,6 +137,19 @@ Customization
 (setq evil-lion-left-align-key (kbd "g a"))
 (setq evil-lion-right-align-key (kbd "g A"))
 (evil-lion-mode)
+```
+
+Or with`use-package` and `bind-key`:
+
+```
+(use-package evil-lion
+  :ensure t
+  :bind (:map evil-normal-state-map
+         ("g l " . evil-lion-left)
+         ("g L " . evil-lion-right)
+         :map evil-visual-state-map
+         ("g l " . evil-lion-left)
+         ("g L " . evil-lion-right))
 ```
 
 #### Bind in prog modes only

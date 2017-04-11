@@ -125,7 +125,7 @@ BEG and END specify the region."
 
 TYPE can be either 'left or 'right.
 If COUNT is 1, the alignment will be performed on the first occurance
-only. COUNT is experimental.
+only.
 BEG and END specify the retion to align.
 REGEX is the regex to align by."
   (when (> (length regex) 0)
