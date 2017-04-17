@@ -67,6 +67,11 @@ Must be set before the minor mode is enabled."
             'sexp)
   :group 'evil-lion)
 
+(defcustom evil-lion-squeeze-spaces nil
+  "If non-nil, aligning will remove extra spaces."
+  :group 'evil-lion
+  :type  'boolean)
+
 ;;;###autoload(autoload 'evil-lion-left "evil-lion" nil t)
 (evil-define-operator evil-lion-left (count beg end char)
   "Align the text in the given region using CHAR. Spaces are added to
@@ -77,7 +82,7 @@ expression instead of a single character"
   :move-point nil
   :type line
   (interactive "<c><r>c")
-  (evil-lion--align count beg end 'left char))
+  (evil-lion--align beg end count 'left char))
 
 ;;;###autoload(autoload 'evil-lion-right "evil-lion" nil t)
 (evil-define-operator evil-lion-right (count beg end char)
@@ -89,11 +94,12 @@ expression instead of a single character"
   :move-point nil
   :type line
   (interactive "<c><r>c")
-  (evil-lion--align count beg end 'right char))
+  (evil-lion--align beg end count 'right char))
 
-(defun evil-lion--align (count beg end type char)
+(defun evil-lion--align (beg end count type char)
   "Align the region b/w BEG and END.
 
+If COUNT is 1, alignment will be done on the first match only.
 TYPE can be either 'left or 'right.
 CHAR is the character to align with."
   (cond ((eq char ?\r)
@@ -129,22 +135,69 @@ only.
 BEG and END specify the retion to align.
 REGEX is the regex to align by."
   (when (> (length regex) 0)
-    (let* ((indent-tabs-mode nil)
-           (regexp
-            (if (eq type 'left) (concat "\\(\\)" regex) (concat regex "\\(\\)")))
-           (spacing 0)
-           (repeat
-            (if (eq count 1) nil t))
-           (group 1)
-           (rule
-            (list (list nil (cons 'regexp regexp)
-                        (cons 'group group)
-                        (cons 'spacing spacing)
-                        (cons 'repeat repeat)))))
-      ;; if align-region isn't loaded, require it
-      (unless (fboundp 'align-region)
-        (require 'align))
-      (align-region beg end 'entire rule nil nil))))
+
+    (save-restriction
+      (narrow-to-region beg end)
+
+      ;; squeeze spaces if configured to do so; at this point, count `1' isn't supported with `evil-lion-squeeze-spaces'
+      (when evil-lion-squeeze-spaces
+        (when (not (null count))
+          (user-error "Passing COUNT when `evil-lion-squeeze-spaces' is non-nil is not supported at the moment"))
+        (evil-lion--squeeze-spaces type (point-min) (point-max) regex))
+
+      ;; prepare input for align-region and call it
+      (let* ((indent-tabs-mode nil)
+             (regexp
+              (if (eq type 'left) (concat "\\(\\)" regex) (concat regex "\\(\\)")))
+             (spacing 0)
+             (repeat
+              (if (eq count 1) nil t))
+             (group 1)
+             (rule
+              (list (list nil (cons 'regexp regexp)
+                          (cons 'group group)
+                          (cons 'spacing spacing)
+                          (cons 'repeat repeat)))))
+        ;; if align-region isn't loaded, load it
+        (unless (fboundp 'align-region)
+          (require 'align))
+        (align-region (point-min) (point-max) 'entire rule nil nil)))))
+
+(defun evil-lion--squeeze-spaces (type beg end regex)
+  "Replace multiple spaces with one space in the given region.
+
+Each of the lines in the given region are processed, this function
+performs line-wise operation, it doesn't strictly follow the given
+region boundary.
+
+TYPE can either be 'left or right.
+BEG and END specify the region.
+REGEX is the regex that must follow or preceed the spaces."
+  (save-excursion
+    (let ((line-count (count-lines beg end)))
+      (goto-char beg)
+      (dotimes (var line-count)
+        (evil-lion--squeeze-spaces-on-current-line type regex) ;; repeat squeeze until it returns nil
+        (forward-line 1)))))
+
+(defun evil-lion--squeeze-spaces-on-current-line (type regex)
+  "Replace multiple spaces with one space on the current line.
+
+TYPE can either be 'left or right.
+For TYPE 'left, spaces will be squeezed only if the REGEX matches
+after the spaces.
+For TYPE 'right, spaces will be squeezed only if the REGEX matches
+before the spaces."
+  (beginning-of-line)
+  ;; look for 2 or more spaces
+  (while (re-search-forward "\\([ ]\\{2,\\}\\)" (point-at-eol) t)
+    (when (save-excursion (save-match-data (or
+                                            ;; for type 'left, check if the spaces are followed by the regex
+                                            (and (eq type 'left) (looking-at regex))
+                                            ;; for type 'right, check if the spaces are preceeded by the regex
+                                            (and (eq type 'right) (goto-char (match-beginning 0)) (looking-back regex))
+                                            )))
+      (replace-match " "))))
 
 (defun evil-lion--bind-keys (mode)
   "Bind keys for the given minor MODE."

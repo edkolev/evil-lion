@@ -150,7 +150,54 @@ my %hash = (
    a      => 1,
    bbb    => 2,
    cccccc => 3
-);")))
+);"))
+(ert-info ("Align with and without squeeze spaces")
+  (evil-test-buffer ;; align and squeeze the spaces, but ignore spaces not followed by the regex
+   "[a]    = 1,  one
+b   = 2 , two
+c  = 3 , three
+"
+   (setq evil-lion-squeeze-spaces t)
+   ("glip=")
+   "a = 1,  one
+b = 2 , two
+c = 3 , three
+"
+   )
+  (evil-test-buffer ;; same test as above, but without sqeezing the spaces
+   "[a]    = 1,  one
+b   = 2 , two
+c  = 3 , three
+"
+   (setq evil-lion-squeeze-spaces nil)
+   ("glip=")
+   "[a]    = 1,  one
+b    = 2 , two
+c    = 3 , three
+"
+   )
+  (ert-info ("Align with squeeze spaces")
+    (setq evil-lion-squeeze-spaces t)
+    (evil-test-buffer
+     "[a] ,                b
+aa ,           bb
+aaa ,   bbb
+"
+     ("gLip,")
+     "a ,   b
+aa ,  bb
+aaa , bbb
+")
+    (evil-test-buffer
+     "a    =   1
+b   =   2
+c  = 3
+"
+     ("glip=")
+     "a =   1
+b =   2
+c = 3
+"))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; code below is copied from evil-tests.el
