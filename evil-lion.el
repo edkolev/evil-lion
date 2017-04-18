@@ -177,7 +177,7 @@ REGEX is the regex that must follow or preceed the spaces."
     (let ((line-count (count-lines beg end)))
       (goto-char beg)
       (dotimes (var line-count)
-        (evil-lion--squeeze-spaces-on-current-line type regex) ;; repeat squeeze until it returns nil
+        (evil-lion--squeeze-spaces-on-current-line type regex)
         (forward-line 1)))))
 
 (defun evil-lion--squeeze-spaces-on-current-line (type regex)
