@@ -197,7 +197,17 @@ c  = 3
      "a =   1
 b =   2
 c = 3
-"))))
+")
+    (evil-test-buffer ;; test with COUNT 1
+     "1,   1,    1
+22,   2,            2
+"
+     ("1gLip,")
+     "1,  1,    1
+22, 2,            2
+")
+
+    )))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; code below is copied from evil-tests.el
