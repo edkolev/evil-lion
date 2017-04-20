@@ -193,17 +193,19 @@ For TYPE 'right, spaces will be squeezed only if the REGEX matches
 before the spaces."
   (beginning-of-line)
   ;; look for 2 or more spaces
-  (let ((continue-loop t))
-    (while (and (re-search-forward "\\([ ]\\{2,\\}\\)" (point-at-eol) t) continue-loop)
-      (when (save-excursion (save-match-data (or
-                                              ;; for type 'left, check if the spaces are followed by the regex
-                                              (and (eq type 'left) (looking-at regex))
-                                              ;; for type 'right, check if the spaces are preceeded by the regex
-                                              (and (eq type 'right) (goto-char (match-beginning 0)) (looking-back regex))
-                                              )))
-        (replace-match " ")
-        (when (eq count 1) ;; if COUNT is 1, exit the loop after the first replace
-          (setq continue-loop nil))))))
+  (let ((continue-loop t)
+        (spaces-regex "\\([ ]\\{2,\\}\\)")) ;; match 2 or more spaces
+    (while (and (re-search-forward regex (point-at-eol) t) continue-loop)
+      (when (save-excursion (or
+                             ;; for type 'right, match spaces after the regex
+                             (and (eq type 'right) (looking-at spaces-regex))
+                             ;; for type 'left, match spaces before the regex
+                             (and (eq type 'left) (goto-char (match-beginning 0)) (looking-back spaces-regex))))
+        (replace-match " "))
+      ;; if COUNT is 1, exit the loop after the first match of REGEX
+      (when (eq count 1)
+        (setq continue-loop nil)))))
+
 
 (defun evil-lion--bind-keys (mode)
   "Bind keys for the given minor MODE."

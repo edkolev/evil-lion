@@ -206,6 +206,14 @@ c = 3
      "1,  1,    1
 22, 2,            2
 ")
+    (evil-test-buffer ;; test with COUNT 1, don't touch second CHAR if the first on is already sqeezed
+     "1,  1,    1
+22, 2,            2
+"
+     ("1gLip,")
+     "1,  1,    1
+22, 2,            2
+")
 
     )))
 
