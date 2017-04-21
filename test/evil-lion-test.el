@@ -176,7 +176,7 @@ b    = 2 , two
 c    = 3 , three
 "
    )
-  (ert-info ("Align with squeeze spaces")
+  (ert-info ("Rigth align with squeeze spaces")
     (setq evil-lion-squeeze-spaces t)
     (evil-test-buffer
      "[a] ,                b
@@ -188,32 +188,36 @@ aaa ,   bbb
 aa ,  bb
 aaa , bbb
 ")
-    (evil-test-buffer
-     "a    =   1
+    (ert-info ("Left align with sqeezing spaces")
+      (setq evil-lion-squeeze-spaces t)
+      (evil-test-buffer
+       "a    =   1
 b   =   2
 c  = 3
 "
-     ("glip=")
-     "a =   1
+       ("glip=")
+       "a =   1
 b =   2
 c = 3
-")
-    (evil-test-buffer ;; test with COUNT 1
-     "1,   1,    1
+"))
+    (ert-info ("Right align with squeeze spaces and COUNT 1")
+      (evil-test-buffer
+       "1,   1,    1
 22,   2,            2
 "
-     ("1gLip,")
-     "1,  1,    1
+       ("1gLip,") ;; test with COUNT 1
+       "1,  1,    1
 22, 2,            2
-")
-    (evil-test-buffer ;; test with COUNT 1, don't touch second CHAR if the first on is already sqeezed
-     "1,  1,    1
+"))
+    (ert-info ("Right aligning already aligned with squeeze spaces and COUNT 1")
+      (evil-test-buffer
+       "1,  1,    1
 22, 2,            2
 "
-     ("1gLip,")
-     "1,  1,    1
+       ("1gLip,")
+       "1,  1,    1
 22, 2,            2
-")
+"))
 
     )))
 
