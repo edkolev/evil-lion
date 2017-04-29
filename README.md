@@ -129,6 +129,14 @@ will become:
 Customization
 -------------
 
+#### Disable squeezing of spaces
+
+By default, evil-lion will remove unnecessary spaces if there are any. To disable this behaviour:
+
+``` emacs-lisp
+(setq evil-lion-squeeze-spaces nil) ;; default t
+```
+
 #### Change the default keys
 
 ``` emacs-lisp

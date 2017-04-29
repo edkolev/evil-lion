@@ -5,7 +5,7 @@
 ;; Author: edkolev <evgenysw@gmail.com>
 ;; URL: http://github.com/edkolev/evil-lion
 ;; Package-Requires: ((emacs "24") (evil "1.0.0"))
-;; Version: 0.0.1
+;; Version: 0.0.2
 ;; Keywords: emulations, evil, vim
 
 ;; This file is NOT part of GNU Emacs.
@@ -67,7 +67,7 @@ Must be set before the minor mode is enabled."
             'sexp)
   :group 'evil-lion)
 
-(defcustom evil-lion-squeeze-spaces nil
+(defcustom evil-lion-squeeze-spaces t
   "If non-nil, aligning will remove extra spaces."
   :group 'evil-lion
   :type  'boolean)
