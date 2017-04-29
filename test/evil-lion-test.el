@@ -7,9 +7,13 @@
 
 (ert-deftest evil-lion-test ()
   :tags '(evil-lion)
-  (ert-info ("Simple")
-    (evil-test-buffer
-     "
+  (dolist (squeeze '(t nil))
+    ;; run the following tests with both squeeze-spaces On and Off,
+    ;; the result should be the same
+    (setq evil-lion-squeeze-spaces squeeze)
+    (ert-info ("Simple")
+      (evil-test-buffer
+       "
 [o]ne = 1
 three = 3
 fifteen = 15
@@ -150,7 +154,9 @@ my %hash = (
    a      => 1,
    bbb    => 2,
    cccccc => 3
-);"))
+);")))
+
+
 (ert-info ("Align with and without squeeze spaces")
   (evil-test-buffer ;; align and squeeze the spaces, but ignore spaces not followed by the regex
    "[a]    = 1,  one
@@ -175,51 +181,77 @@ c  = 3 , three
 b    = 2 , two
 c    = 3 , three
 "
-   )
-  (ert-info ("Rigth align with squeeze spaces")
-    (setq evil-lion-squeeze-spaces t)
-    (evil-test-buffer
-     "[a] ,                b
+   ))
+(ert-info ("Rigth align with squeeze spaces")
+  (setq evil-lion-squeeze-spaces t)
+  (evil-test-buffer
+   "[a] ,                b
 aa ,           bb
 aaa ,   bbb
 "
-     ("gLip,")
-     "a ,   b
+   ("gLip,")
+   "a ,   b
 aa ,  bb
 aaa , bbb
-")
-    (ert-info ("Left align with sqeezing spaces")
-      (setq evil-lion-squeeze-spaces t)
-      (evil-test-buffer
-       "a    =   1
+"))
+(ert-info ("Left align with sqeezing spaces")
+  (setq evil-lion-squeeze-spaces t)
+  (evil-test-buffer
+   "a    =   1
 b   =   2
 c  = 3
 "
-       ("glip=")
-       "a =   1
+   ("glip=")
+   "a =   1
 b =   2
 c = 3
 "))
-    (ert-info ("Right align with squeeze spaces and COUNT 1")
-      (evil-test-buffer
-       "1,   1,    1
+(ert-info ("Right align with squeeze spaces and COUNT 1")
+  (evil-test-buffer
+   "1,   1,    1
 22,   2,            2
 "
-       ("1gLip,") ;; test with COUNT 1
-       "1,  1,    1
+   ("1gLip,") ;; test with COUNT 1
+   "1,  1,    1
 22, 2,            2
 "))
-    (ert-info ("Right aligning already aligned with squeeze spaces and COUNT 1")
-      (evil-test-buffer
-       "1,  1,    1
+(ert-info ("Right aligning already aligned with squeeze spaces and COUNT 1")
+  (evil-test-buffer
+   "1,  1,    1
 22, 2,            2
 "
-       ("1gLip,")
-       "1,  1,    1
+   ("1gLip,")
+   "1,  1,    1
 22, 2,            2
 "))
 
-    )))
+(ert-info ("Simple, spaces should be squeezed")
+  (evil-test-buffer
+   "
+[o]ne  = 1
+three  = 3
+fifteen  = 15
+"
+      ("glap=")
+      "
+one     = 1
+three   = 3
+fifteen = 15
+"))
+
+(ert-info ("Simple, spaces should be squeezed, but not added")
+  (evil-test-buffer
+   "
+[o]ne  = 1
+three  = 3
+fifteen= 15
+"
+      ("glap=")
+      "
+one    = 1
+three  = 3
+fifteen= 15
+")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; code below is copied from evil-tests.el
