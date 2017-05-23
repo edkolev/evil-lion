@@ -178,7 +178,7 @@ REGEX is the regex that must follow or preceed the spaces."
   (save-excursion
     (let ((line-count (count-lines beg end)))
       (goto-char beg)
-      (dotimes (var line-count)
+      (dotimes (_var line-count)
         (evil-lion--squeeze-spaces-on-current-line type count regex)
         (forward-line 1)))))
 
@@ -200,7 +200,7 @@ before the spaces."
                              ;; for type 'right, match spaces after the regex
                              (and (eq type 'right) (looking-at spaces-regex))
                              ;; for type 'left, match spaces before the regex
-                             (and (eq type 'left) (goto-char (match-beginning 0)) (looking-back spaces-regex))))
+                             (and (eq type 'left) (goto-char (match-beginning 0)) (looking-back spaces-regex (line-beginning-position)))))
         (replace-match " "))
       ;; if COUNT is 1, exit the loop after the first match of REGEX
       (when (eq count 1)
