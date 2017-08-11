@@ -119,14 +119,21 @@ BEG and END specify the region."
   "Return nil if the CHAR is invalid align character, e.g. DEL."
   (not (memq char '(?\e ?\d ?\b)))) ;; ESC, DEL, BS
 
-(defvar evil-lion--prev-user-regex "/"
-  "The last regex used for alignment, specified by the user.")
+(defvar evil-lion--user-regex-history ()
+  "List of the user-supplied regexes.")
 
 (defun evil-lion--maybe-read-regex (char)
   "If CHAR is \"/\", ask the user for a regex. Otherwise regexp-quote CHAR."
   (if (eq char ?/)
-      (let ((regex (read-string (format "Pattern [%s]: " evil-lion--prev-user-regex) nil nil evil-lion--prev-user-regex)))
-        (setq evil-lion--prev-user-regex regex))
+      (let* ((default (or (car-safe evil-lion--user-regex-history) "/"))
+             (regex (read-string (format "Pattern [%s]: " default)
+                                 nil
+                                 'evil-lion--user-regex-history
+                                 default)))
+        (progn
+          (push regex evil-lion--user-regex-history)
+          (delete-dups evil-lion--user-regex-history)
+          regex))
     (regexp-quote (format  "%c" char))))
 
 (declare-function align-region "align")
