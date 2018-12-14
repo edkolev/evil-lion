@@ -157,7 +157,7 @@ Or with`use-package` and `bind-key`:
          ("g L " . evil-lion-right)
          :map evil-visual-state-map
          ("g l " . evil-lion-left)
-         ("g L " . evil-lion-right))
+         ("g L " . evil-lion-right)))
 ```
 
 #### Bind in prog modes only
