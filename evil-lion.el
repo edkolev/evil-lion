@@ -77,7 +77,7 @@ Must be set before the minor mode is enabled."
   "Align the text in the given region using CHAR. Spaces are added to
 the left of the found CHAR.
 
-If CHAR is \"/\" the user is propted interactively for a regular
+If CHAR is \"/\" the user is prompted interactively for a regular
 expression instead of a single character"
   :move-point nil
   :type line
@@ -89,7 +89,7 @@ expression instead of a single character"
   "Align the text in the given region using CHAR. Spaces are added to
 the right of the found CHAR.
 
-If CHAR is \"/\" the user is propted interactively for a regular
+If CHAR is \"/\" the user is prompted interactively for a regular
 expression instead of a single character"
   :move-point nil
   :type line
