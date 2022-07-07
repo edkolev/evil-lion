@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/edkolev/evil-lion.svg?branch=master)](https://travis-ci.org/edkolev/evil-lion)
-[![MELPA](http://melpa.milkbox.net/packages/evil-lion-badge.svg)](http://melpa.milkbox.net/#/evil-lion)
+[![MELPA](https://melpa.org/packages/evil-lion-badge.svg)](https://melpa.org/#/evil-lion)
 
 ![Emacs evil alignment operator](https://cloud.githubusercontent.com/assets/1532071/23845388/6edda00c-07d0-11e7-9ea1-ffa945f03980.png)
 
