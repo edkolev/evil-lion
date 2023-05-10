@@ -163,7 +163,7 @@ Or with`use-package` and `bind-key`:
 #### Bind in prog modes only
 
 Bind `evil-lion-left` and `evil-lion-right` to your liking.
-The `evil-lion-mode` is just a convenience mode and should not be enalbed with this setup.
+The `evil-lion-mode` is just a convenience mode and should not be enabled with this setup.
 
 ``` emacs-lisp
 (evil-define-key 'normal prog-mode-map
