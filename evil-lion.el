@@ -74,9 +74,9 @@ Must be set before the minor mode is enabled."
 
 ;;;###autoload(autoload 'evil-lion-left "evil-lion" nil t)
 (evil-define-operator evil-lion-left (count beg end char)
-  "Align the text in the given region using CHAR. Spaces are added to
-the left of the found CHAR.
+  "Align the text in the given region using CHAR.
 
+Spaces are added to the left of the found CHAR.
 If CHAR is \"/\" the user is prompted interactively for a regular
 expression instead of a single character"
   :move-point nil
@@ -86,9 +86,9 @@ expression instead of a single character"
 
 ;;;###autoload(autoload 'evil-lion-right "evil-lion" nil t)
 (evil-define-operator evil-lion-right (count beg end char)
-  "Align the text in the given region using CHAR. Spaces are added to
-the right of the found CHAR.
+  "Align the text in the given region using CHAR.
 
+Spaces are added to the right of the found CHAR.
 If CHAR is \"/\" the user is prompted interactively for a regular
 expression instead of a single character"
   :move-point nil
@@ -100,7 +100,7 @@ expression instead of a single character"
   "Align the region b/w BEG and END.
 
 If COUNT is 1, alignment will be done on the first match only.
-TYPE can be either 'left or 'right.
+TYPE can be either `left' or `right'.
 CHAR is the character to align with."
   (cond ((eq char ?\r)
          (evil-lion--plain-align beg end))
@@ -138,9 +138,9 @@ BEG and END specify the region."
 
 (declare-function align-region "align")
 (defun evil-lion--align-region (type count beg end regex)
-  "Build input for (align-region) and call it.
+  "Build input for `align-region' and call it on the given region.
 
-TYPE can be either 'left or 'right.
+TYPE can be either `left' or `right'.
 If COUNT is 1, the alignment will be performed on the first occurance
 only.
 BEG and END specify the retion to align.
@@ -182,7 +182,7 @@ Each of the lines in the given region are processed, this function
 performs line-wise operation, it doesn't strictly follow the given
 region boundary.
 
-TYPE can either be 'left or right.
+TYPE can either be `left' or `right'.
 If COUNT is 1, spaces will be squeezed on the first match only.
 BEG and END specify the region.
 REGEX is the regex that must follow or preceed the spaces."
@@ -196,17 +196,17 @@ REGEX is the regex that must follow or preceed the spaces."
 (defun evil-lion--squeeze-spaces-on-current-line (type count regex)
   "Replace multiple spaces with one space on the current line.
 
-TYPE can either be 'left or right.
+TYPE can either be `left' or `right'.
 If COUNT is 1, spaces will be squeezed on the first match only.
-For TYPE 'left, spaces will be squeezed only if the REGEX matches
+For TYPE `left', spaces will be squeezed only if the REGEX matches
 after the spaces.
-For TYPE 'right, spaces will be squeezed only if the REGEX matches
+For TYPE `right', spaces will be squeezed only if the REGEX matches
 before the spaces."
   (beginning-of-line)
   ;; look for 2 or more spaces
   (let ((continue-loop t)
         (spaces-regex "\\([ ]\\{2,\\}\\)")) ;; match 2 or more spaces
-    (while (and (re-search-forward regex (point-at-eol) t) continue-loop)
+    (while (and (re-search-forward regex (line-end-position) t) continue-loop)
       (when (save-excursion (or
                              ;; for type 'right, match spaces after the regex
                              (and (eq type 'right) (looking-at spaces-regex))
@@ -229,15 +229,15 @@ before the spaces."
 
 ;;;###autoload
 (define-minor-mode evil-lion-mode
-  "evil-lion global mode, defines align operators 'gl' and 'gL'.
+  "Toggle `evil-lion-mode', defines align operators gl and gL.
 
-  Align with `gl MOTION CHAR` or right-align with `gL MOTION CHAR`.
+  Align with gl MOTION CHAR or right-align with gL MOTION CHAR.
 
-  If CHAR is `/` you will be prompted for a regular expression instead
+  If CHAR is / you will be prompted for a regular expression instead
   of a plain character.
 
-  If CHAR is `RET` alignment will be performed with align.el's rules
-  specific for the current major mode."
+  If CHAR is RET, alignment will be performed with the rules of
+  align.el which are specific for the current major mode."
   :global t
   (evil-lion--bind-keys 'evil-lion-mode))
 
