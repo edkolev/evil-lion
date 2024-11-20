@@ -1,6 +1,6 @@
 ;;; evil-lion.el --- Evil align operator, port of vim-lion -*- lexical-binding: t; coding: utf-8 -*-
 
-;; Copyright (C) 2017 edkolev
+;; Copyright (C) 2024 edkolev
 
 ;; Author: edkolev <evgenysw@gmail.com>
 ;; URL: http://github.com/edkolev/evil-lion
